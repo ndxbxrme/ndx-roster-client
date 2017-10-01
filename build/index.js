@@ -8,8 +8,16 @@
     module = angular.module('ndx');
   } catch (error) {
     e = error;
-    module = angular.module('ndx-roster-client', []);
+    module = angular.module('ndx', []);
   }
+
+  module.run(function(socket, $timeout, $rootScope) {
+    return socket.on('roster', function(users) {
+      return $timeout(function() {
+        return $rootScope.roster = users;
+      });
+    });
+  });
 
 }).call(this);
 
